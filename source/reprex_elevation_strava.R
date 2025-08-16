@@ -9,7 +9,7 @@ activity <- get_activity_list(
 )
 
 
-## Calculation like in issue post
+## Calculation like this is wrong, elev_high and elev_low are max. and min.
 (ascent <- activity[[1]]$total_elevation_gain)
 (descent <- ascent - activity[[1]]$elev_high + activity[[1]]$elev_low)
 
