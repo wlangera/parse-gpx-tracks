@@ -1,5 +1,8 @@
 library(sf)
-source(file.path("source", "R", "merge_gpx_tracks.R"))
+library(readr)
+
+lapply(list.files(file.path("source", "R"), full.names = TRUE), source)
+
 
 # Data sources
 data_path <- file.path("data", "czech_republic_2025")
