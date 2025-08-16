@@ -74,11 +74,8 @@ process_strava_activities <- function(act_data, stoken) {
   elevation_df <- streams %>%
     group_by(id) %>%
     summarise(
-      ascent2 = calculate_elevation_gain(data.frame(ele = altitude)),
-      descent2 = calculate_elevation_gain(
-        data.frame(ele = altitude),
-        ascent = FALSE
-      ),
+      start_height = first(altitude),
+      end_height = last(altitude),
       .groups = "drop"
     )
   
@@ -87,8 +84,7 @@ process_strava_activities <- function(act_data, stoken) {
     full_join(elevation_df, by = join_by(id)) %>%
     arrange(date) %>%
     mutate(
-      p = ascent / ascent2,
-      descent = descent2 * p,
+      descent = ascent - end_height + start_height,
       nr = row_number(),
       dist_label =
         paste0(
