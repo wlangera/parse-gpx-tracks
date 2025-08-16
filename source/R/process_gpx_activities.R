@@ -64,13 +64,13 @@
 #' )
 #'
 #' # Merge GPX files by date
-#' sf_tracks <- merge_gpx_tracks(
+#' sf_tracks <- process_gpx_activities(
 #'   data_path = data_path,
 #'   track_df = track_data
 #' )
 #' }
 
-merge_gpx_tracks <- function(
+process_gpx_activities <- function(
     data_path,
     track_df,
     layer = "tracks",

@@ -15,7 +15,7 @@ track_data <- read_delim(
 )
 
 # Merge gpx files by date
-sf_tracks <- merge_gpx_tracks(
+sf_tracks <- process_gpx_activities(
   data_path,
   track_data,
   quiet = TRUE
