@@ -1,15 +1,21 @@
 library(sf)
-source(file.path("source", "merge_gpx_tracks.R"))
+source(file.path("source", "R", "merge_gpx_tracks.R"))
 
 # Data sources
 data_path <- file.path("data", "czech_republic_2025")
-track_file <- "track_data.csv"
+
+# Read track data
+track_data <- read_delim(
+  file.path(data_path, "track_data.csv"),
+  col_types = cols(date = col_date("%d/%m/%Y")),
+  show_col_types = FALSE
+)
 
 # Merge gpx files by date
 sf_tracks <- merge_gpx_tracks(
   data_path,
-  track_file,
-  col_types = cols(date = col_date("%d/%m/%Y"))
+  track_data,
+  quiet = TRUE
 )
 
 # Check
