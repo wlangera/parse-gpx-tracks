@@ -9,6 +9,7 @@
 #' @param track_df A `data.frame` (or tibble) containing metadata for the GPX files. 
 #'   Must contain at least a column matching `gpx_col` and the specified `date_col`, 
 #'   `start_col`, `end_col`, and optionally `nr_col`.
+#' @param layer Character string. GPX layer to read for points (default = `"tracks"`).
 #' @param gpx_col Character string. Column name in `track_df` that contains GPX file 
 #'   identifiers (default = `"gpx_file"`). These should match the GPX file names 
 #'   (without extension) in `data_path`.
@@ -72,6 +73,7 @@
 merge_gpx_tracks <- function(
     data_path,
     track_df,
+    layer = "tracks",
     gpx_col = "gpx_file",
     date_col = "date",
     start_col = "start",
@@ -94,15 +96,7 @@ merge_gpx_tracks <- function(
   )
   
   # Read all GPX tracks
-  gpx_list <- lapply(gpx_files, function(file) {
-    layers <- st_layers(file)
-    layer_names <- layers$name
-    if ("tracks" %in% layer_names) {
-      st_read(file, layer = "tracks", ...)
-    } else {
-      st_read(file, ...)
-    }
-  })
+  gpx_list <- lapply(gpx_files, read_gpx_file, layer = layer, ...)
   
   # Combine gpx geometries in single sf object
   sf_table <- bind_rows(gpx_list) %>%
